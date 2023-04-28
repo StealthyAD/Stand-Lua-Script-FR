@@ -14,99 +14,99 @@
     Commençons par comment faire, maintenir son Lua Script constamment allumé, vous pouvez mettre m'importe ou, soit au début ou à la fin.
 ]]--
 
-util.keep_running() -- Tu supprimes, le lua script s'arrête nettement sans problème.
+    util.keep_running() -- Tu supprimes, le lua script s'arrête nettement sans problème.
 
---[[
-    Imaginons dans un cas, vous voulez faire du n'importe quoi dans votre Lua Script et que vous aurez besoin d'exploiter, exploiter les natives vous servent d'indication et comment le paramétrer
-    Attention: il faut vérifier que ça soit la dernière version.
+    --[[
+        Imaginons dans un cas, vous voulez faire du n'importe quoi dans votre Lua Script et que vous aurez besoin d'exploiter, exploiter les natives vous servent d'indication et comment le paramétrer
+        Attention: il faut vérifier que ça soit la dernière version.
 
-    Des natives dans une liste interminable, vous pouvez les retrouver via "Lua Scripts/lib" et tout les noms commencent par "natives-"
+        Des natives dans une liste interminable, vous pouvez les retrouver via "Lua Scripts/lib" et tout les noms commencent par "natives-"
 
-    natives-1606100775
-    natives-1627063482
-    natives-1640181023
-    natives-1651208000
-    Et une liste interminable, vous comprenez, utiliser spécifiquement à vos besoins.
-]]--
+        natives-1606100775
+        natives-1627063482
+        natives-1640181023
+        natives-1651208000
+        Et une liste interminable, vous comprenez, utiliser spécifiquement à vos besoins.
+    ]]--
 
-util.require_natives(1663599433) -- ou util.requires_natives("natives-1663599433") version longue, c'est la même chose comment vous l'écrivez
+    util.require_natives(1663599433) -- ou util.requires_natives("natives-1663599433") version longue, c'est la même chose comment vous l'écrivez
 
---[[
-    Chose suivante, vous voulez afficher des boutons tels que "Soi", "Véhicule", "Fun", etc... mais vous ne savez pas comment faire, bah je vais vous expliquer.
-    En premier temps, vous aurez besoin de ça: menu.my_root(), permet d'initialiser le menu principal, en gros vous allez afficher qqch dans le menu principal.
-    Je vais vous donner quelques exemples
+    --[[
+        Chose suivante, vous voulez afficher des boutons tels que "Soi", "Véhicule", "Fun", etc... mais vous ne savez pas comment faire, bah je vais vous expliquer.
+        En premier temps, vous aurez besoin de ça: menu.my_root(), permet d'initialiser le menu principal, en gros vous allez afficher qqch dans le menu principal.
+        Je vais vous donner quelques exemples
 
-    Pour comprendre le fonctionnement à l'intérieur, menu... autre que ça, vous avez une liste dans le site de Stand.
+        Pour comprendre le fonctionnement à l'intérieur, menu... autre que ça, vous avez une liste dans le site de Stand.
 
-    Exemple: menu.action(menu.my_root(), "Exemple", {}, function()end) -- décomposons en partie:
-    menu.action(CommandRef, "Bouton Commande/Affiche le nom", {"commande"}, "Description", function() 
-        -- Par exemple tu intègres le code à l'intérieur
-    end)
-]]--
+        Exemple: menu.action(menu.my_root(), "Exemple", {}, function()end) -- décomposons en partie:
+        menu.action(CommandRef, "Bouton Commande/Affiche le nom", {"commande"}, "Description", function() 
+            -- Par exemple tu intègres le code à l'intérieur
+        end)
+    ]]--
 
-menu.list(menu.my_root(), "Exemple", {}, "", function()end)
+    menu.list(menu.my_root(), "Exemple", {}, "", function()end)
 
---[[
-    Imaginons, t'en a marre que ton script ressemble à ça: 
+    --[[
+        Imaginons, t'en a marre que ton script ressemble à ça: 
 
-    menu.action(menu.my_root(), "Affiche le message", {"affichermessage"}, "Description", function() 
+        menu.action(menu.my_root(), "Affiche le message", {"affichermessage"}, "Description", function() 
+            util.toast("Salut à tous.")
+        end)
+
+        Mais que t'aimerais que ça soit plus simplifié.
+        Crée un "local" dont tu appeleras peut importe.
+        Pour ma part je l'ai appelé caca, peut importe comment tu vas l'appeler, sois créatif.
+    ]]--
+
+    local caca = menu.my_root()
+
+    --[[
+        Maintenant, c'est très simple, initialise 'caca' dans "commandRef"
+        Dans un second cas, tu veux que ca soit plus simplifié aussi?
+    ]]--
+
+    menu.action(menu.my_root(), "Affiche le message", {"affichermessage"}, "Description", function() -- sans la variable "caca"
         util.toast("Salut à tous.")
     end)
 
-    Mais que t'aimerais que ça soit plus simplifié.
-    Crée un "local" dont tu appeleras peut importe.
-    Pour ma part je l'ai appelé caca
-]]--
+    menu.action(caca, "Affiche le message", {"ouioui"}, "Description", function() -- la variable "caca" apparait, tu vois c'est plus simple
+        util.toast("Test 2")
+    end)
 
-local caca = menu.my_root()
+    -- Second cas:
 
---[[
-    Maintenant, c'est très simple, initialise caca dans "commandRef"
-    Dans un second cas, tu veux que ca soit plus simplifié aussi?
-]]--
+    caca:action("J'aime le caca", {"caca"}, "Description", function() -- la variable "caca" au début apparait : caca:action en remplaçant menu. / Suppression de commandRef, tu recrées commme ça: caca.action(caca, ""), cela ne marchera pas
+        util.toast("Caca boudain.")
+    end)
 
-menu.action(menu.my_root(), "Affiche le message", {"affichermessage"}, "Description", function() -- sans la variable "caca"
-    util.toast("Salut à tous.")
-end)
+    --[[
+        Tu veux créer une suite de catégorie comme dans Stand, exemple: Soi > Armes comme ça
+        Alors c'est très facile.
+        Tu créeas encore une variable mais tu créeas une liste.
+        Exemples:
+    ]]--
 
-menu.action(caca, "Affiche le message", {"ouioui"}, "Description", function() -- la variable "caca" apparait
-    util.toast("Test 2")
-end)
+    local cacalist = menu.list(caca, "Liste des Cacas") -- la variable "caca", on a repris à partir de : "local caca = menu.my_root()"
 
--- Second cas:
+    menu.action(cacalist, "J'aime le caca 2", {"caca21"}, "Description", function() -- la variable "cacalist" apparait dans le commandRef
+        util.toast("Caca boudain.")
+    end)
 
-caca:action("J'aime le caca", {"caca"}, "Description", function() -- la variable "caca" au début apparait : caca:action en remplaçant menu. / Suppression de commandRef, tu recrées commme ça: caca.action(caca, ""), cela ne marchera pas
-    util.toast("Caca boudain.")
-end)
+    cacalist:action("J'aime le caca", {"caca"}, "Description", function() -- la variable "cacalist" apparait au début
+        util.toast("Caca boudain.")
+    end)
 
---[[
-    Tu veux créer une suite de catégorie comme dans Stand, exemple: Soi > Armes comme ça
-    Alors c'est très facile.
-    Tu créeas encore une variable mais tu créeas une liste.
-    Exemples:
-]]--
+    -- Ou
+    --> local cacalist = caca:list("Liste des Cacas") (c'est la même chose mais rapide)
+    -- Tu peux créer ainsi des suites à l'illimité sans problème, maintenant passons à autre chose.
 
-local cacalist = menu.list(caca, "Liste des Cacas") -- la variable "caca", on a repris à partir de : "local caca = menu.my_root()"
+    --[[
+        Passons à autre chose, les boucles, il existe deux types de boucles:
+        - les boucles finies, qui se finit direct comme le dit son nom avec: menu.toggle(commandref, "nom", {"command"}, "description", function() end)
+        - les boucles infinies, qui se finit jamais, repérable avec: menu.toggle_loop(commandRef, "nom", {"cmd"}, "desc", function()end)
+    ]]--
 
-menu.action(cacalist, "J'aime le caca 2", {"caca21"}, "Description", function() -- la variable "cacalist" apparait dans le commandRef
-    util.toast("Caca boudain.")
-end)
-
-cacalist:action("J'aime le caca", {"caca"}, "Description", function() -- la variable "cacalist" apparait au début
-    util.toast("Caca boudain.")
-end)
-
--- Ou
---> local cacalist = caca:list("Liste des Cacas") (c'est la même chose mais rapide)
--- Tu peux créer ainsi des suites à l'illimité sans problème, maintenant passons à autre chose.
-
---[[
-    Passons à autre chose, les boucles, il existe deux types de boucles:
-    - les boucles finies, qui se finit direct comme le dit son nom avec: menu.toggle(commandref, "nom", {"command"}, "description", function() end)
-    - les boucles infinies, qui se finit jamais, repérable avec: menu.toggle_loop(commandRef, "nom", {"cmd"}, "desc", function()end)
-]]--
-
--- Exemple 1
+    -- Exemple 1
 
     menu.toggle(caca, "Vérifier si les cacas sont présents", {"cacatoggle"}, "description 1", function(toggle) -- Dans un cas précis, vous voulez "toggle", alors vous pouvez, nommer le peu importe, toggled, f, on, etc... Soyez créatif en tt cas.
         if toggle then 
@@ -116,7 +116,7 @@ end)
         end
     end)
 
--- Exemple 2
+    -- Exemple 2
 
     menu.toggle_loop(caca, "Cacas constant", {"cacatoggleon"}, "description 1", function() -- Dans un cas précis, vous n'avez pas besoin de "toggle" comme dans l'autre, il est en boucle.
         util.toast("Les cacas sont présents à Los Santos") -- affiche en permanence le message suivant.
@@ -124,73 +124,73 @@ end)
         util.toast("Arrêt des recherches de cacas")
     end)
 
---[[
-    Dans un cas normal, vous avez le bazar dans votre lua script et les catégories sont bizarres, il est possible de re-catégoriser, en modifiant l'ordre comment vous le mettez, juste copier coller ou supprimer et
-    remettre au bon endroit, c'est un puzzle simple
+    --[[
+        Dans un cas normal, vous avez le bazar dans votre lua script et les catégories sont bizarres, il est possible de re-catégoriser, en modifiant l'ordre comment vous le mettez, juste copier coller ou supprimer et
+        remettre au bon endroit, c'est un puzzle simple
 
-    Exemple concret, le premier affichera "Vérifier si les cacas sont présents" et en dessous: "Cacas Présents"
-    menu.toggle(caca, "Vérifier si les cacas sont présents", {"cacatoggle"}, "description 1", function(toggle) -- Dans un cas précis, vous voulez "toggle", alors vous pouvez, nommer le peu importe, toggled, f, on, etc... Soyez créatif en tt cas.
-        if toggle then 
-            util.toast("Les cacas sont présents à Los Santos")
-        else -- vous donnez une autre condition si elle s'arrête, en gros, vous le désactiver, il affiche qqch
+        Exemple concret, le premier affichera "Vérifier si les cacas sont présents" et en dessous: "Cacas Présents"
+        menu.toggle(caca, "Vérifier si les cacas sont présents", {"cacatoggle"}, "description 1", function(toggle) -- Dans un cas précis, vous voulez "toggle", alors vous pouvez, nommer le peu importe, toggled, f, on, etc... Soyez créatif en tt cas.
+            if toggle then 
+                util.toast("Les cacas sont présents à Los Santos")
+            else -- vous donnez une autre condition si elle s'arrête, en gros, vous le désactiver, il affiche qqch
+                util.toast("Arrêt des recherches de cacas")
+            end
+        end)
+
+        menu.toggle_loop(caca, "Cacas constant", {"cacatoggleon"}, "description 1", function() -- Dans un cas précis, vous n'avez pas besoin de "toggle" comme dans l'autre, il est en boucle.
+            util.toast("Les cacas sont présents à Los Santos") -- affiche en permanence le message suivant.
+        end, function()
             util.toast("Arrêt des recherches de cacas")
-        end
-    end)
+        end)
 
-    menu.toggle_loop(caca, "Cacas constant", {"cacatoggleon"}, "description 1", function() -- Dans un cas précis, vous n'avez pas besoin de "toggle" comme dans l'autre, il est en boucle.
-        util.toast("Les cacas sont présents à Los Santos") -- affiche en permanence le message suivant.
-    end, function()
-        util.toast("Arrêt des recherches de cacas")
-    end)
+        Pour faciliter, ré-organiser comme le souhaitez, 
 
-    Pour faciliter, ré-organiser comme le souhaitez, 
+        Exemple concret, le premier affichera "Cacas Présents" et en dessous: "Vérifier si les cacas sont présents"
 
-    Exemple concret, le premier affichera "Cacas Présents" et en dessous: "Vérifier si les cacas sont présents"
-
-    menu.toggle_loop(caca, "Cacas constant", {"cacatoggleon"}, "description 1", function() -- Dans un cas précis, vous n'avez pas besoin de "toggle" comme dans l'autre, il est en boucle.
-        util.toast("Les cacas sont présents à Los Santos") -- affiche en permanence le message suivant.
-    end, function()
-        util.toast("Arrêt des recherches de cacas")
-    end)
-
-    menu.toggle(caca, "Vérifier si les cacas sont présents", {"cacatoggle"}, "description 1", function(toggle) -- Dans un cas précis, vous voulez "toggle", alors vous pouvez, nommer le peu importe, toggled, f, on, etc... Soyez créatif en tt cas.
-        if toggle then 
-            util.toast("Les cacas sont présents à Los Santos")
-        else -- vous donnez une autre condition si elle s'arrête, en gros, vous le désactiver, il affiche qqch
+        menu.toggle_loop(caca, "Cacas constant", {"cacatoggleon"}, "description 1", function() -- Dans un cas précis, vous n'avez pas besoin de "toggle" comme dans l'autre, il est en boucle.
+            util.toast("Les cacas sont présents à Los Santos") -- affiche en permanence le message suivant.
+        end, function()
             util.toast("Arrêt des recherches de cacas")
-        end
-    end)
+        end)
 
-    Vous pouvez aussi séparer avec des colonnes, dites divider
-]]
+        menu.toggle(caca, "Vérifier si les cacas sont présents", {"cacatoggle"}, "description 1", function(toggle) -- Dans un cas précis, vous voulez "toggle", alors vous pouvez, nommer le peu importe, toggled, f, on, etc... Soyez créatif en tt cas.
+            if toggle then 
+                util.toast("Les cacas sont présents à Los Santos")
+            else -- vous donnez une autre condition si elle s'arrête, en gros, vous le désactiver, il affiche qqch
+                util.toast("Arrêt des recherches de cacas")
+            end
+        end)
+
+        Vous pouvez aussi séparer avec des colonnes, dites divider
+    ]]
 
     menu.divider(caca, "Caca Division") -- pas besoin de rajouter plus.
 
---[[
-    Passons à autre chose, les boucles, tu veux faire du n'importe quoi en mode online et que tu veux exploser tout le monde sans problème ou que t'aimerais bien que tu n'attaques pas tes amis, soit tes ennemies, soit toi-même
-    Il existe une solution si tu veux créer cela.
+    --[[
+        Passons à autre chose, les boucles, tu veux faire du n'importe quoi en mode online et que tu veux exploser tout le monde sans problème ou que t'aimerais bien que tu n'attaques pas tes amis, soit tes ennemies, soit toi-même
+        Il existe une solution si tu veux créer cela.
 
-    Dispose toi à te servir du site Stand.gg
+        Dispose toi à te servir du site Stand.gg
 
-    players.list(self, friends, strangers, crewmembers, organization) -- c'est comment on l'organise
+        players.list(self, friends, strangers, crewmembers, organization) -- c'est comment on l'organise en sélectionnant les types de joueurs (soi, amis, étrangers, membres du crew ou membres organisation PDG/Club motard)
 
-    Imaginons, tu ne veux pas que toi, te fasse tuer ou être affecté, alors tu vas utiliser un booléan, cela consiste à dire vrai ou faux, en langage informatique, on utilisera true ou false
+        Imaginons, tu ne veux pas que toi, te fasse tuer ou être affecté, alors tu vas utiliser un booléan, cela consiste à dire vrai ou faux, en langage informatique, on utilisera true ou false
+        Exemple 1: for _, pid in pairs(players.list(false, false, true, false, true)) -- j'ai remplis quelques conditions.
+        Pourquoi intégrer for, c'est un exemple, for désigne ce que tu vas sélectionner, et c'est un exemple concret.
 
-    Exemple 1: for _, pid in pairs(players.list(false, false, true, false, true)) -- j'ai remplis quelques conditions.
-    Pourquoi intégrer for, c'est un exemple, for désigne ce que tu vas sélectionner, et c'est un exemple concret.
-
-    Certain lua scripts disposent des "Exclusions", donc je pourrais t'en proposer de ma manière.
-    J'ai décidé de créer une variable "ExclureSoi" et une fonction.
-    Il est possible de créer aussi pour vous amis, membres organisations, crew ou étrangers
-]]--
+        Certain lua scripts crées par des joueurs disposent des "Exclusions", donc je pourrais t'en proposer de ma manière.
+        J'ai décidé de créer une variable "ExclureSoi" et une fonction. Tu n'es pas obligé d'appeler le même nom que j'ai choisi.
+        Il est possible de créer aussi pour vous amis, membres organisations, crew ou étrangers
+    ]]--
 
     local ExclureSoi = true -- vous laissez false, vous êtes épargné.
     local function toggleSelfCallback(toggle)
         ExclureSoi = not toggle
     end
 
-    menu.toggle(caca, "Exclure Soi", {"toggleself"}, "Exclure des fonctionnalités touchant à soi-même", toggleSelfCallback) -- On a remplacé "function" par toggleSelfCallback pour une question de facilité.
+    menu.toggle(caca, "Exclure Soi", {"toggleself"}, "Exclure des fonctionnalités touchant à soi-même", toggleSelfCallback) -- On a remplacé "function" par toggleSelfCallback
 
+    -- Exemple 1
     menu.toggle_loop(caca, "Exploser tout le monde avec du caca", {'autoexplodecaca'}, "", function() 
         for _, pid in pairs(players.list(ExclureSoi, false, true, false, true)) do -- ExclureSoi (-> Redirection si voulez vous-épargner), false -> amis, true -> étrangers dont les joueurs pas amis, false -> membres du crew, true -> membres de l'organisation
             local pos = players.get_position(pid) -- Nous avons pris exemple position du joueur par exemple.
@@ -200,9 +200,12 @@ end)
         util.yield(500)
     end)
 
-    -- Il existe plusieurs cas possibles, vous pouvez aussi ajouter une condition en utilisant if, vous lui donner des conditions pour qu'il répond bien à vous attentes.
-    -- Imaginons, le mec est en godmode ou que le mec est à l'intérieur, vous donner ce type de condition, comme l'exemple:
+    --[[ 
+        Il existe plusieurs cas possibles, vous pouvez aussi ajouter une condition en utilisant if, vous lui donner des conditions pour qu'il répond bien à vous attentes.
+        Imaginons, le mec est en godmode ou que le mec est à l'intérieur, vous donner ce type de condition, comme l'exemple 
+    ]]--
 
+    -- Exemple 2
     menu.toggle_loop(caca, "Exploseur Caca (Condition si n'est pas à l'intérieur ou godmode)", {'explodecaca'}, "", function()
         for _, pid in pairs(players.list(ExclureSoi, false, true, false, true)) do
             if not players.is_in_interior(pid) or players.is_godmode(pid) then -- vous pouvez aussi ajouter "else", c'est optionnel, ajouter "not" revient à exclure les personnes godmode/intérieur, ne pas ajouter "not" sélectionne les personnes même godmode ou autres
@@ -216,15 +219,15 @@ end)
 
     menu.divider(caca, "Section Spawn/Ped")
 
---[[
-    Passons à autre chose, tu veux faire spawn un véhicule ou un ped (entité) via à partir du lua script, très simple
-]]--
-
+    --[[
+        Passons à autre chose, tu veux faire spawn un véhicule ou un ped (entité) via à partir du lua script, très simple
+    ]]--
     local function ApparitionModele(hash, msecs)
         util.request_model(hash, msecs)
     end
 
--- Exemple 1 pour faire apparaitre un Ped    
+    -- J'ai crée une fonction pour te simplifier la tâche pour comprendre.
+    -- Exemple 1 pour faire apparaitre un Ped    
 
     menu.action(caca, "Faire apparaitre un Singe", {''}, 'Faites moi apparaitre un singe', function()
         local hash = util.joaat('a_c_chimp')
@@ -234,7 +237,7 @@ end)
         --PED.CREATE_PED(1, hash, pos.x, pos.y, pos.z, 0, true, true), c'est la même chose mais rapide
     end)
 
--- Même exemple mais pour un véhicule prédéfini
+    -- Même exemple mais pour un véhicule prédéfini
 
     menu.action(caca, "Faire apparaitre un véhicule", {''}, 'Faites moi apparaitre un véhicule', function()
         local hash = util.joaat('adder')
@@ -244,18 +247,18 @@ end)
         --VEHICLE.CREATE_VEHICLE(hash, pos.x, pos.y, pos.z, 0, true, true, false)
     end)
 
--- Vous n'aimez pas que votre véhicule spawn dans une position vous souhaitez
+    -- Vous n'aimez pas que votre véhicule spawn dans une position vous souhaitez, vous pouvez modifier en utilisant 'ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS'
 
     menu.action(caca, "Faire apparaitre un véhicule un peu plus loin", {''}, 'Faites moi apparaitre un véhicule', function()
         local hash = util.joaat('adder')
         ApparitionModele(hash, 2000)
         local ped = players.user_ped()
-        local c = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 5.0, 0.0) -- Vous n'aurez plus besoin d'utiliser vos propres coordonnées, 5.0 en Y coordonnée représente la distance
-        entities.create_vehicle(hash, c, 0)
+        local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 5.0, 0.0) -- Vous n'aurez plus besoin d'utiliser vos propres coordonnées, 5.0 en Y coordonnée représente la distance
+        entities.create_vehicle(hash, pos, 0)
     end)
 
--- vous voulez que la commande permet de faire spawn des modèles de véhicules à partir d'une commande?
--- même débat, même condition mais en ajoutant:  menu.show_command_box_click_based(text, "comd ") -- texte ou arg ou m'importe
+    -- vous voulez que la commande permet de faire spawn des modèles de véhicules à partir d'une commande en choisissant m'importe quel modèle?
+    -- même débat, même condition mais en ajoutant:  menu.show_command_box_click_based(text, "comd ") -- texte ou arg ou m'importe
 
     menu.action(caca, "Apparaitre un véhicule modèle", {'fairespawn'}, 'Faites moi apparaitre un véhicule', function(couille)
         menu.show_command_box_click_based(couille, "fairespawn ")
@@ -328,71 +331,71 @@ end)
         end
     end)
 
---[[
-    Maintenant passons à la chose cruciale que tout le monde veut dans son lua script.
-    Catégorie Joueurs
-]]
+    --[[
+        Maintenant passons à la chose cruciale que tout le monde veut dans son lua script.
+        Catégorie Joueurs
+    ]]
 
---[[
-    Nous allons créer une catégorie pour mettre à l'intérieur ce qu'il y a de choses importants.
-    Exemple:
+    --[[
+        Nous allons créer une catégorie pour mettre à l'intérieur ce qu'il y a de choses importants.
+        Exemple:
 
-        players.on_join(function(pid) -- vous pouvez nommer m'importe comment "pid" soit par playerPid, PlayerID, etc... Soyez créatifs.
-            -- Intègre le code à l'intérieur
-        end)
+            players.on_join(function(pid) -- vous pouvez nommer m'importe comment "pid" soit par playerPid, PlayerID, etc... Soyez créatifs.
+                -- Intègre le code à l'intérieur
+            end)
 
-    Vous voulez intégrer une colonne ou appelé "divider", créer la même variable de root mais pour joueur. 
-    Ne différenciez pas menu.my_root() qui désigne "Le" lua script du menu principal et menu.player_root() qui renvoie au menu ciblé par le joueur en question
-    Vous pouvez créer comme ça:
+        Vous voulez intégrer une colonne ou appelé "divider", créer la même variable de root mais pour joueur. 
+        Ne différenciez pas menu.my_root() qui désigne "Le" lua script du menu principal et menu.player_root() qui renvoie au menu ciblé par le joueur en question
+        Vous pouvez créer comme ça:
 
-        players.on_join(function(pid)
-            menu.divider(menu.player_root(pid), "Mon Caca Script Tutoriel")
-        end)
+            players.on_join(function(pid)
+                menu.divider(menu.player_root(pid), "Mon Caca Script Tutoriel")
+            end)
 
-    Si cela ne s'affiche pas, pourquoi?
-    Ajouter cette partie: 
-    - players.dispatch_on_join()
-    - players.on_leave(function()end)
+        Si cela ne s'affiche pas, pourquoi?
+        Ajouter cette partie: 
+        - players.dispatch_on_join()
+        - players.on_leave(function()end)
 
-    Ré-appliquer la même chose que auparavant, vous aimez que cela soit simplifié, même principe
-    local cacaJoueurMenu = menu.player_root(pid) - pid est l'ID du joueur ciblé, pour savoir, vous avez peut être intégré (pid) dans players.on_join(function(pid)end) pour savoir
-    Intégrer la variable à l'intérieur de "players.on_join", laisser à l'extérieur = mauvaise idée.
+        Ré-appliquer la même chose que auparavant, vous aimez que cela soit simplifié, même principe
+        local cacaJoueurMenu = menu.player_root(pid) - pid est l'ID du joueur ciblé, pour savoir, vous avez peut être intégré (pid) dans players.on_join(function(pid)end) pour savoir
+        Intégrer la variable à l'intérieur de "players.on_join", laisser à l'extérieur = mauvaise idée.
 
-    Exemple donné:
+        Exemple donné:
 
-        players.on_join(function(pid)
-            local cacaJoueurMenu = menu.player_root(pid)
-            menu.divider(cacaJoueurMenu, "Mon Caca Script Tutoriel") ou cacaJoueurMenu:divider("Mon Caca Script Tutoriel") [Simplifié]
-        end)
+            players.on_join(function(pid)
+                local cacaJoueurMenu = menu.player_root(pid)
+                menu.divider(cacaJoueurMenu, "Mon Caca Script Tutoriel") ou cacaJoueurMenu:divider("Mon Caca Script Tutoriel") [Simplifié]
+            end)
 
-    Maintenant, ce qu'on va faire, c'est de récupérer les infos du nom du joueur, alors là, c'est très simple.
-    Tu utiliseras "players.get_name(pid)"
-    Si tu veux que cela soit simplifié, même principe.
+        Maintenant, ce qu'on va faire, c'est de récupérer les infos du nom du joueur, alors là, c'est très simple.
+        Tu utiliseras "players.get_name(pid)"
+        Si tu veux que cela soit simplifié, même principe.
 
-    Exemple donnée:
+        Exemple donnée:
+
+            players.on_join(function(pid)
+                local cacaJoueurMenu = menu.player_root(pid)
+                local cacaNomJoueur = players.get_name(pid)
+                menu.divider(cacaJoueurMenu, "Mon Caca Script Tutoriel") ou cacaJoueurMenu:divider("Mon Caca Script Tutoriel") [Simplifié]
+                menu.action(cacaJoueurMenu, "Afficher son nom", {""}, "", function()
+                    util.toast("Son nom est: "..cacaNomJoueur)
+                end)
+            end)
+
+        Pourquoi ajouter des deux petits points? Car il faut la variable, si tu ne donnes pas quelque chose, tu sais que si t'ajoutes une virgule, Stand comprendras que tu as fait une bêtise donc à revoir le code.
+    ]]--
+
+    -- Exemple concret comment fonctionne:
 
         players.on_join(function(pid)
             local cacaJoueurMenu = menu.player_root(pid)
             local cacaNomJoueur = players.get_name(pid)
-            menu.divider(cacaJoueurMenu, "Mon Caca Script Tutoriel") ou cacaJoueurMenu:divider("Mon Caca Script Tutoriel") [Simplifié]
+            menu.divider(cacaJoueurMenu, "Mon Caca Script Tutoriel")
             menu.action(cacaJoueurMenu, "Afficher son nom", {""}, "", function()
                 util.toast("Son nom est: "..cacaNomJoueur)
             end)
         end)
 
-    Pourquoi ajouter des deux petits points? Car il faut la variable, si tu ne donnes pas quelque chose, tu sais que si t'ajoutes une virgule, Stand comprendras que tu as fait une bêtise donc à revoir le code.
-]]--
-
--- Exemple concret comment fonctionne:
-
-    players.on_join(function(pid)
-        local cacaJoueurMenu = menu.player_root(pid)
-        local cacaNomJoueur = players.get_name(pid)
-        menu.divider(cacaJoueurMenu, "Mon Caca Script Tutoriel")
-        menu.action(cacaJoueurMenu, "Afficher son nom", {""}, "", function()
-            util.toast("Son nom est: "..cacaNomJoueur)
-        end)
-    end)
-
-    players.dispatch_on_join()
-    players.on_leave(function()end)
+        players.dispatch_on_join()
+        players.on_leave(function()end)
