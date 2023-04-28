@@ -77,7 +77,6 @@ Pour comprendre, mon_menu désigle commandRef, par défaut, c'est: ```menu.my_ro
 Attention: Les commandes entre crochets ne doit pas contenir d'espaces, comme ça: ```{"crack test"}```
 
 Premier exemple (sans la variable mon_menu intégré)
---------------------
 ```
 menu.action(menu.my_root(), "Salut", {"salut1"}, "Description 1", function()
   util.toast("Salut, c'est mon premier Lua Script")
@@ -86,7 +85,6 @@ end)
 ![Lua 1](https://user-images.githubusercontent.com/125747450/235222529-fc871aa3-cddf-4dc9-b970-e77c66a728e1.jpg)
 
 Second exemple (avec la variable mon_menu intégré)
---------------------
 ```
 local mon_menu = menu.my_root()
 
@@ -96,7 +94,6 @@ end)
 ```
 
 Dernier exemple (avec la variable mon_menu intégré)
---------------------
 ```
 local mon_menu = menu.my_root()
 
@@ -113,7 +110,6 @@ Vous comprendrez pourquoi les exemples sont différents, c'est selon votre choix
 Même exemple, on utilisera ```menu.list(commandRef, "Nom", {"commande"}, "Description", function()end)``` pour faire fonctionner, on utilisera la variable qu'on a crée dont mon_menu. L'exemple à suivre, j'ai crée une autre variable dont elle va être en redirection de la catégorie qu'on souhaite voir par exemple Salut dans la catégorie. Elle s'applique à m'importe quel type de "menu.", peu importe.
 
 Premier Exemple
---------------------
 ```
 local mon_menu = menu.my_root()
 
@@ -125,7 +121,6 @@ end)
 ```
 
 Deuxième Exemple
---------------------
 ```
 local mon_menu = menu.my_root()
 
@@ -148,7 +143,6 @@ Exemples en image:
 - les boucles infinies, qui se finit jamais, repérable avec: `menu.toggle_loop(commandRef, "nom", {"cmd"}, "desc", function()end)`
 
 Premier exemple (Boucle fini)
---------------------
 ```
 local mon_menu = menu.my_root()
 
@@ -163,7 +157,6 @@ end)
 https://user-images.githubusercontent.com/125747450/235223890-8bf24572-4efb-46e2-a495-19263efeb395.mp4
 
 Second exemple (Boucle infini)
---------------------
 ```
 local mon_menu = menu.my_root()
 
@@ -187,7 +180,7 @@ end
 ```
 
 __Apparaitre une entité (Ped)__
---------------------
+---------------------------
 Pour faire apparaitre un ped, nous allons utiliser `entities.create_ped(int type, int hash, Vector3 pos, number heading)` et d'utiliser la localisation exacte du joueur en question dont `players.user_ped()`.
 
 Exemple
