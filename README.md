@@ -136,7 +136,7 @@ Exemples en image:
 ![Lua 3](https://user-images.githubusercontent.com/125747450/235222835-e0089925-2cec-41a1-87bc-6cf977583c1b.jpg)
 
 
-# Les boutons boucles finis (menu.toggle) / infinies (menu.toggle_loop)
+### Les boutons boucles finis (menu.toggle) / infinies (menu.toggle_loop)
 
 > Passons à autre chose, les boucles, il existe deux types de boucles:
 - les boucles finies, qui se finit direct comme le dit son nom avec: `menu.toggle(commandref, "nom", {"command"}, "description", function() end)`
