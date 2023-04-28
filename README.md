@@ -164,7 +164,7 @@ end, function()
 end)
 ```
 
-## Parties optionel du Lua Scripts
+## Partie optionel du Lua Scripts
 
 ### Faire apparaitre une entité (véhicule/ped...)
 > Tout d'abord, on va commencer par créer une fonction dont on utilisera à partir du site de Stand.gg en premier lieu. C'est à vous de voir mais cela évite de copier toujours la même chose `util.request_model(hash, miliseconds)` à chaque fois, c'est optionel.
@@ -195,3 +195,122 @@ menu.action(mon_menu, "Faire apparaitre un Singe", {''}, 'Faites moi apparaitre 
     -- PED.CREATE_PED(1, hash, pos.x, pos.y, pos.z, 0, true, true), c'est la même chose.
 end)
 ```
+
+__Apparaitre une entité (Véhicule)__
+--------------------
+Pour faire apparaitre un véhicule, même exemple que le précédent mais tout change: `entities.create_vehicle(int hash, Vector3 pos, number heading)` et d'utiliser la localisation exacte du joueur en question dont `players.user_ped()`.
+
+Premier exemple (apparition fixe de la position du joueur)
+```ruby
+local mon_menu = menu.my_root()
+
+function EntityRequest(hash, msc)
+    util.request_model(hash, msc)
+end
+
+menu.action(mon_menu, "Faire apparaitre une Adder", {''}, 'Faites moi apparaitre un véhicule', function()
+    local hash = util.joaat('adder')
+    EntityRequest(hash, 2000)
+    local pos = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+    entities.create_vehicle(hash, pos, 0)
+    -- VEHICLE.CREATE_VEHICLE(hash, pos.x, pos.y, pos.z, 0, true, true, false)
+end)
+```
+
+Deuxième exemple (apparition éloigné de la position du joueur)
+```ruby
+local mon_menu = menu.my_root()
+
+function EntityRequest(hash, msc)
+    util.request_model(hash, msc)
+end
+
+menu.action(mon_menu, "Faire apparaitre une Adder", {''}, 'Faites moi apparaitre un véhicule', function()
+    local hash = util.joaat('adder')
+    EntityRequest(hash, 2000)
+    local ped = players.user_ped()
+    local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 5.0, 0.0) -- On change de native pour cela.
+    entities.create_vehicle(hash, pos, 0)
+    -- VEHICLE.CREATE_VEHICLE(hash, pos.x, pos.y, pos.z, 0, true, true, false)
+end)
+```
+
+Troisième exemple (apparition du véhicule, par commande)
+```ruby
+local mon_menu = menu.my_root()
+
+function EntityRequest(hash, msc)
+    util.request_model(hash, msc)
+end
+
+menu.action(mon_menu, "Apparaitre un véhicule modèle", {'fairespawn'}, 'Faites moi apparaitre un véhicule', function(type)
+    menu.show_command_box_click_based(type, "fairespawn ")
+end, function(argument) 
+    local hash = util.joaat(argument)
+    EntityRequest(hash, 2000)
+    local ped = players.user_ped()
+    local c = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 5.0, 0.0) 
+    entities.create_vehicle(hash, c, 0)
+end)
+```
+
+Autre exemple mais vous voulez afficher un message d'erreur si le modèle du véhicule est invalide.
+Intégrons `STREAMING.IS_MODEL_A_VEHICLE(modelVeh)` pour vérifier si le véhicule est reconnu ou pas.
+```ruby
+local mon_menu = menu.my_root()
+
+function EntityRequest(hash, msc)
+    util.request_model(hash, msc)
+end
+
+menu.action(mon_menu, "Apparaitre un véhicule modèle (Condition)", {'fairespawn2'}, 'Faites moi apparaitre un véhicule', function(type)
+    menu.show_command_box_click_based(type, "fairespawn2 ")
+end, function(argument) 
+    local hash = util.joaat(argument)
+    if STREAMING.IS_MODEL_A_VEHICLE(hash) then 
+        ApparitionModele(hash, 2000)
+        local ped = players.user_ped()
+        local c = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 5.0, 0.0) 
+        entities.create_vehicle(hash, c, 0)
+    else
+        util.toast("Le véhicule que vous avez écrit: "..argument.." n'est pas reconnu.")
+    end
+end)
+```
+
+# Les menus joueurs
+> Commençons par créer ça:
+```
+players.on_join(function(pid) -- vous pouvez nommer m'importe comment "pid" soit par playerPid, PlayerID, etc... Soyez créatifs.
+    -- Intègre le code à l'intérieur
+end)
+```
+Normalement, rien se passe, vous voulez ajouter un bouton menu dans la partie du joueur spécifique, il est possible. Il faut que `menu.player_root()` soit intégré à l'intérieur `players.on_join(function(...)end)`
+
+```
+players.on_join(function(pid) 
+    local playerMenu = menu.player_root(pid) -- attention, obligatoirement mettre le target ID du joueur en question.
+    menu.divider(playerMenu, "Mon Lua Script")
+end)
+```
+
+Vous allez me dire pourquoi le menu n'affiche pas la colonne divider "Mon Lua Script"
+> Ajouter en premier temps la partie à la fin:
+
+```
+players.dispatch_on_join()
+players.on_leave(function()end)
+```
+Exemple
+---------
+```
+players.on_join(function(pid) 
+    local playerMenu = menu.player_root(pid) -- attention, obligatoirement mettre le target ID du joueur en question.
+    menu.divider(playerMenu, "Mon Lua Script")
+end)
+
+players.dispatch_on_join()
+players.on_leave(function()end)
+```
+
+Il va permettre d'afficher la partie que vous souhaitez la visualiser.
