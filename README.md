@@ -179,7 +179,7 @@ function EntityRequest(hash, msc)
 end
 ```
 
-__Apparaitre une entité (Ped)__
+### Apparaitre une entité (Ped)
 ---------------------------
 Pour faire apparaitre un ped, nous allons utiliser `entities.create_ped(int type, int hash, Vector3 pos, number heading)` et d'utiliser la localisation exacte du joueur en question dont `players.user_ped()`.
 
@@ -201,7 +201,7 @@ end)
 ```
 https://user-images.githubusercontent.com/125747450/235225179-2c953af6-04e0-466d-87c0-c2bf09d5e3e7.mp4
 
-__Apparaitre une entité (Véhicule)__
+### Apparaitre une entité (Véhicule)
 --------------------
 Pour faire apparaitre un véhicule, même exemple que le précédent mais tout change: `entities.create_vehicle(int hash, Vector3 pos, number heading)` et d'utiliser la localisation exacte du joueur en question dont `players.user_ped()`.
 
