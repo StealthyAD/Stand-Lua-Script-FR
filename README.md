@@ -81,6 +81,7 @@ menu.action(menu.my_root(), "Salut", {"salut1"}, "Description 1", function()
   util.toast("Salut, c'est mon premier Lua Script")
 end)
 ```
+![Lua 1](https://user-images.githubusercontent.com/125747450/235222529-fc871aa3-cddf-4dc9-b970-e77c66a728e1.jpg)
 
 Second exemple (avec la variable mon_menu intégré)
 --------------------
@@ -133,13 +134,18 @@ CategorieSuivant:action("Salut", {"salut1"}, "Description 1", function() -- On a
 end)
 ```
 
+Exemples en image:
+![Lua 2](https://user-images.githubusercontent.com/125747450/235222819-d6e5be97-c32e-41c9-9d61-00fb764967f5.jpg)
+![Lua 3](https://user-images.githubusercontent.com/125747450/235222835-e0089925-2cec-41a1-87bc-6cf977583c1b.jpg)
+
+
 # Les boutons boucles finis (menu.toggle) / infinies (menu.toggle_loop)
 
 > Passons à autre chose, les boucles, il existe deux types de boucles:
 - les boucles finies, qui se finit direct comme le dit son nom avec: `menu.toggle(commandref, "nom", {"command"}, "description", function() end)`
 - les boucles infinies, qui se finit jamais, repérable avec: `menu.toggle_loop(commandRef, "nom", {"cmd"}, "desc", function()end)`
 
-Premier exemple (Boucle infini)
+Premier exemple (Boucle fini)
 --------------------
 ```
 local mon_menu = menu.my_root()
@@ -152,6 +158,8 @@ menu.toggle(mon_menu, "Vérifier si il y'a des chiottes", {"chiottetoggle"}, "de
     end
 end)
 ```
+https://user-images.githubusercontent.com/125747450/235223890-8bf24572-4efb-46e2-a495-19263efeb395.mp4
+
 Second exemple (Boucle infini)
 --------------------
 ```
