@@ -6,7 +6,7 @@ Vous êtes débutant mais vous ne savez pas où par commencer, bien joué.
 Il ne faut pas s'inquiéter des termes compliqués ou bizarres, il faut savoir comprendre et à quoi peut-elle servir.
 Les sites utiles pour comprendre les Lua & Natives.
 
-Tutoriel complet en anglais: [GitHub StandAPI de Keramis](https://github.com/Keramis/Lua_STANDAPI)
+Tutoriel complet en anglais: [GitHub StandAPI de Keramis (en anglais)](https://github.com/Keramis/Lua_STANDAPI)
 - [nativeDB](https://nativedb.dotindustries.dev/natives)  
 - [Stand API]( https://stand.gg/help/lua-api-documentation)
 - [Docs FiveM](https://docs.fivem.net/natives/)
