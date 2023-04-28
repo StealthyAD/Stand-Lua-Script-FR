@@ -163,3 +163,35 @@ end, function()
     util.toast("Arrêt des recherches de chiottes")
 end)
 ```
+
+## Parties optionel du Lua Scripts
+
+### Faire apparaitre une entité (véhicule/ped...)
+> Tout d'abord, on va commencer par créer une fonction dont on utilisera à partir du site de Stand.gg en premier lieu. C'est à vous de voir mais cela évite de copier toujours la même chose `util.request_model(hash, miliseconds)` à chaque fois, c'est optionel.
+
+```
+function EntityRequest(hash, msc)
+    util.request_model(hash, msc)
+end
+```
+
+__Apparaitre une entité (Ped)__
+--------------------
+Pour faire apparaitre un ped, nous allons utiliser `entities.create_ped(int type, int hash, Vector3 pos, number heading)` et d'utiliser la localisation exacte du joueur en question dont `players.user_ped()`.
+
+Exemple
+```ruby
+local mon_menu = menu.my_root()
+
+function EntityRequest(hash, msc)
+    util.request_model(hash, msc)
+end
+
+menu.action(mon_menu, "Faire apparaitre un Singe", {''}, 'Faites moi apparaitre un singe', function()
+    local hash = util.joaat('a_c_chimp')
+    EntityRequest(hash, 2000)
+    local pos = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+    entities.create_ped(1, hash, pos, 0)
+    -- PED.CREATE_PED(1, hash, pos.x, pos.y, pos.z, 0, true, true), c'est la même chose.
+end)
+```
