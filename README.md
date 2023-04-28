@@ -170,7 +170,7 @@ https://user-images.githubusercontent.com/125747450/235224411-26a10ca8-470b-4e99
 
 ## Partie optionel du Lua Scripts
 
-### Faire apparaitre une entité (véhicule/ped...)
+Faire apparaitre une entité (véhicule/ped...)
 > Tout d'abord, on va commencer par créer une fonction dont on utilisera à partir du site de Stand.gg en premier lieu. C'est à vous de voir mais cela évite de copier toujours la même chose `util.request_model(hash, miliseconds)` à chaque fois, c'est optionel.
 
 ```
