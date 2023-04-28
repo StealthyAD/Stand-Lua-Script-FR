@@ -171,6 +171,7 @@ end, function()
     util.toast("Arrêt des recherches de chiottes")
 end)
 ```
+https://user-images.githubusercontent.com/125747450/235224411-26a10ca8-470b-4e99-be86-cc9c25d9dd7a.mp4
 
 ## Partie optionel du Lua Scripts
 
@@ -203,6 +204,7 @@ menu.action(mon_menu, "Faire apparaitre un Singe", {''}, 'Faites moi apparaitre 
     -- PED.CREATE_PED(1, hash, pos.x, pos.y, pos.z, 0, true, true), c'est la même chose.
 end)
 ```
+https://user-images.githubusercontent.com/125747450/235225179-2c953af6-04e0-466d-87c0-c2bf09d5e3e7.mp4
 
 __Apparaitre une entité (Véhicule)__
 --------------------
@@ -225,6 +227,8 @@ menu.action(mon_menu, "Faire apparaitre une Adder", {''}, 'Faites moi apparaitre
 end)
 ```
 
+https://user-images.githubusercontent.com/125747450/235225643-9282d222-2cf9-40ff-9365-12339ccd9dc6.mp4
+
 Deuxième exemple (apparition éloigné de la position du joueur)
 ```ruby
 local mon_menu = menu.my_root()
@@ -242,6 +246,7 @@ menu.action(mon_menu, "Faire apparaitre une Adder", {''}, 'Faites moi apparaitre
     -- VEHICLE.CREATE_VEHICLE(hash, pos.x, pos.y, pos.z, 0, true, true, false)
 end)
 ```
+https://user-images.githubusercontent.com/125747450/235225781-8ab1ad16-8fc8-4219-9e43-b010d2315f0f.mp4
 
 Troisième exemple (apparition du véhicule, par commande)
 ```ruby
@@ -261,6 +266,7 @@ end, function(argument)
     entities.create_vehicle(hash, c, 0)
 end)
 ```
+https://user-images.githubusercontent.com/125747450/235226365-743acadd-0fe4-4bf9-b987-a8462822d358.mp4
 
 Autre exemple mais vous voulez afficher un message d'erreur si le modèle du véhicule est invalide.
 Intégrons `STREAMING.IS_MODEL_A_VEHICLE(modelVeh)` pour vérifier si le véhicule est reconnu ou pas.
@@ -276,7 +282,7 @@ menu.action(mon_menu, "Apparaitre un véhicule modèle (Condition)", {'fairespaw
 end, function(argument) 
     local hash = util.joaat(argument)
     if STREAMING.IS_MODEL_A_VEHICLE(hash) then 
-        ApparitionModele(hash, 2000)
+        EntityRequest(hash, 2000)
         local ped = players.user_ped()
         local c = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 5.0, 0.0) 
         entities.create_vehicle(hash, c, 0)
@@ -285,6 +291,7 @@ end, function(argument)
     end
 end)
 ```
+https://user-images.githubusercontent.com/125747450/235226751-91d2b0d2-fe76-4245-8a34-05927b65054d.mp4
 
 # Les menus joueurs
 > Commençons par créer ça:
