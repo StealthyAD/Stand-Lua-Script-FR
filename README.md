@@ -312,7 +312,6 @@ players.dispatch_on_join()
 players.on_leave(function()end)
 ```
 Exemple
----------
 ```
 players.on_join(function(pid) 
     local playerMenu = menu.player_root(pid) -- attention, obligatoirement mettre le target ID du joueur en question.
