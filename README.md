@@ -59,7 +59,9 @@ players.on_join(function(pid) -- "pid" cible spécifiquement le joueur.
 end)
 ```
 
-### Parties essentiels du Lua Scripts
+## Partie essentiels du Lua Script
+
+### Les boutons actions (menu.action)
 
 Vous voulez créer une catégorie type "action" en pressant un bouton, catégorie "liste" pour cliquer et trouver autre chose, "slider", etc..., elles peuvent vous servir.
 > Commençons par initialiser une nouvelle variable dont on intégrera `menu.my_root()`.
@@ -71,10 +73,93 @@ local mon_menu = menu.my_root()
 Pour comprendre, mon_menu désigle commandRef, par défaut, c'est: ```menu.my_root()```, entre crochet désigne le nom de la commande, t'en a déjà vu passer des noms de commandes dans le mod menu Stand tel que "bottomless", "fillammo"..., c'est le même principe, crée ta propre commande. La troisième argument entre guillemet désigne la description de l'action/liste, etc... pour savoir c'est quoi au juste.
 
 Attention: Les commandes entre crochets ne doit pas contenir d'espaces, comme ça: ```{"crack test"}```
+
+Premier exemple (sans la variable mon_menu intégré)
+--------------------
+```
+menu.action(menu.my_root(), "Salut", {"salut1"}, "Description 1", function()
+  util.toast("Salut, c'est mon premier Lua Script")
+end)
+```
+
+Second exemple (avec la variable mon_menu intégré)
+--------------------
 ```
 local mon_menu = menu.my_root()
 
 menu.action(mon_menu, "Salut", {"salut1"}, "Description 1", function()
   util.toast("Salut, c'est mon premier Lua Script")
+end)
+```
+
+Dernier exemple (avec la variable mon_menu intégré)
+--------------------
+```
+local mon_menu = menu.my_root()
+
+mon_menu:action("Salut", {"salut1"}, "Description 1", function()
+  util.toast("Salut, c'est mon premier Lua Script")
+end)
+```
+
+### Le bouton liste (menu.list)
+
+Vous comprendrez pourquoi les exemples sont différents, c'est selon votre choix comment vous voulez soit laisser le code par défaut, soit donner quelque chose d'esthétique, simpliste ou clean.
+
+> Tu veux créer une liste qui permet de catégoriser certains types de fonctions/options, etc... ?
+Même exemple, on utilisera ```menu.list(commandRef, "Nom", {"commande"}, "Description", function()end)``` pour faire fonctionner, on utilisera la variable qu'on a crée dont mon_menu. L'exemple à suivre, j'ai crée une autre variable dont elle va être en redirection de la catégorie qu'on souhaite voir par exemple Salut dans la catégorie. Elle s'applique à m'importe quel type de "menu.", peu importe.
+
+Premier Exemple
+--------------------
+```
+local mon_menu = menu.my_root()
+
+local CategorieSuivant = menu.list(mon_menu, "Message Test") -- Vous n'avez pas besoin de rajouter d'autres éléments, ceci est optionelle.
+
+menu.action(CategorieSuivant, "Salut", {"salut1"}, "Description 1", function() -- On a ajouté CategorieSuivant pour ça.
+  util.toast("Salut, c'est mon premier Lua Script")
+end)
+```
+
+Deuxième Exemple
+--------------------
+```
+local mon_menu = menu.my_root()
+
+local CategorieSuivant = menu.list(mon_menu, "Message Test") -- Vous n'avez pas besoin de rajouter d'autres éléments, ceci est optionelle.
+
+CategorieSuivant:action("Salut", {"salut1"}, "Description 1", function() -- On a ajouté CategorieSuivant au début au détriment de "menu." pour ça.
+  util.toast("Salut, c'est mon premier Lua Script")
+end)
+```
+
+# Les boutons boucles finis (menu.toggle) / infinies (menu.toggle_loop)
+
+> Passons à autre chose, les boucles, il existe deux types de boucles:
+- les boucles finies, qui se finit direct comme le dit son nom avec: `menu.toggle(commandref, "nom", {"command"}, "description", function() end)`
+- les boucles infinies, qui se finit jamais, repérable avec: `menu.toggle_loop(commandRef, "nom", {"cmd"}, "desc", function()end)`
+
+Premier exemple (Boucle infini)
+--------------------
+```
+local mon_menu = menu.my_root()
+
+menu.toggle(mon_menu, "Vérifier si il y'a des chiottes", {"chiottetoggle"}, "description 1", function(toggle) -- Dans un cas précis, vous voulez "toggle", alors vous pouvez, nommer le peu importe, toggled, f, on, etc... Soyez créatif en tt cas.
+    if toggle then 
+        util.toast("Les chiottes sont présents à Los Santos")
+    else -- vous donnez une autre condition si elle s'arrête, en gros, vous le désactiver, il affiche qqch
+        util.toast("Arrêt des recherches de chiottes")
+    end
+end)
+```
+Second exemple (Boucle infini)
+--------------------
+```
+local mon_menu = menu.my_root()
+
+menu.toggle_loop(mon_menu, "Vérifier si il y'a des chiottes", {"chiottes"}, "description 1", function() -- Dans un cas précis, vous n'avez pas besoin de "toggle" comme dans l'autre, il est en boucle.
+    util.toast("Les chiottes sont présents à Los Santos") -- affiche en permanence le message suivant.
+end, function()
+    util.toast("Arrêt des recherches de chiottes")
 end)
 ```
