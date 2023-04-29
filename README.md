@@ -6,10 +6,19 @@ Vous êtes débutant mais vous ne savez pas où par commencer, bien joué.
 Il ne faut pas s'inquiéter des termes compliqués ou bizarres, il faut savoir comprendre et à quoi peut-elle servir.
 Les sites utiles pour comprendre les Lua & Natives.
 
-Tutoriel complet en anglais: [GitHub StandAPI de Keramis (en anglais)](https://github.com/Keramis/Lua_STANDAPI)
+__Commencons par définir ce que c'est un Lua.__
+
+- Un Lua est un langage de programmation de scripts léger, extensible et puissant. Il a été conçu pour être utilisé comme langage de script pour les applications, offrant une syntaxe simple mais expressive, ainsi qu'une performance élevée et une faible empreinte mémoire.
+Lua est un langage interprété qui peut être utilisé pour une grande variété de tâches, telles que l'écriture de scripts système, le développement de jeux, l'analyse de données et la création de programmes pour les périphériques embarqués. Il prend en charge la programmation impérative, fonctionnelle et orientée objet, et dispose d'une grande bibliothèque standard.
+
+Et sinon c'est quoi ___Pluto___ ?
+
+- Pluto est une version dérivée du langage de programmation Lua 5.4. Lua est conçu pour être un langage petit, rapide et intégrable. Il est très souvent utilisé dans les jeux et les régions à ressources limitées. Lua se heurte cependant à la nécessité de rester petit, car il manque de fonctionnalités d'usage général. Cette contrainte sur le langage rend difficile la production de scripts complexes à un rythme accéléré. Il faut plus de temps pour mettre en place des alternatives pour la syntaxe manquante, ou pour écrire vos propres fonctions manuelles pour diviser les chaînes de caractères.
+
+Tutoriel complet en anglais: [GitHub StandAPI Keramis (en anglais)](https://github.com/Keramis/Lua_STANDAPI)
 - [nativeDB](https://nativedb.dotindustries.dev/natives)  
 - [Stand API]( https://stand.gg/help/lua-api-documentation)
-- [Docs FiveM](https://docs.fivem.net/natives/)
+- [Docs FiveM Natives](https://docs.fivem.net/natives/)
 
 # Démarrage du script
 Il est facile d'allumer le script, imaginons dans un cas, tu crées un lua script sans rien mettre, le lua script va nettement s'arrêter.
