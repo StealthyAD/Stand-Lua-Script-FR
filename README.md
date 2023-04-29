@@ -2,7 +2,10 @@
 French version of Example Script which means it will make you how to begin Lua Script with minimum knowledge.
 
 Version français pour bien commencer dans le domaine du Lua.
-Vous êtes débutant mais vous ne savez pas où par commencer, bien joué.
+Vous êtes débutant mais vous ne savez pas où par commencer, bien joué. 
+
+Je ne vais pas vous mâcher avec des termes compliqués ou sinon vous n'allez rien comprendre, pensez à votre mémoire, comme le dit: "Percevoir finit par n’etre plus qu’une occasion de se souvenir".
+
 Il ne faut pas s'inquiéter des termes compliqués ou bizarres, il faut savoir comprendre et à quoi peut-elle servir.
 Les sites utiles pour comprendre les Lua & Natives.
 
